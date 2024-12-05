@@ -1,0 +1,1 @@
+export type ErrorCode = 'ERROR_NOT_FOUND' | 'ERROR_VALIDATION' | 'ERROR_ENVIRONMENT';

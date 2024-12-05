@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  mongo:
+    container_name: mongodb-container
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - instastoreapp-vol:/data/db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    command: ['--auth']
+  
+  redis:
+    container_name: redis-container
+    image: redis:latest
+    ports:
+      - 6379:6379
+    restart: always
+  
+  mongo-express:
+    container_name: mongo-express-container
+    depends_on:
+      - mongo
+    image: mongo-express:1.0.0-alpha.4
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: mongodb-container
+    ports:
+      - 8080:8081
+    restart: always
+
+  instastoreapp:
+    container_name: instastoreapp-container
+    build: .
+    depends_on:
+      - mongo
+      - redis
+      - mongo-express
+    image: sergioceballos/instastoreapp:latest
+    ports:
+      - ${PORT}:3000
+    environment:
+      PORT: ${PORT}
+      NODE_ENV: production
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      INIT_DATA: ${INIT_DATA}
+      DISTANCE_MATRIX_URL: ${DISTANCE_MATRIX_URL}
+      DISTANCE_MATRIX_API_KEY: ${DISTANCE_MATRIX_API_KEY}
+      SECRET_KEY: ${SECRET_KEY}
+      PAGINATION_LIMIT: ${PAGINATION_LIMIT}
+      APP_DEBUG: ${APP_DEBUG}
+    restart: always
+
+volumes:
+  instastoreapp-vol:
+    external: false

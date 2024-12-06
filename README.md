@@ -31,11 +31,16 @@ El proyecto sigue una arquitectura por capas que promueve la separación de resp
 - routes      : Definición de rutas y endpoints.
 - controllers : Manejo de validaciones de solicitudes y formateo de respuestas.
 - services    : Lógica de negocio para calcular distancias y gestionar la caché.
-- repositories: Guardado de la información en MongoDB y Redis.
-- models      : Definición de modelos y tipos utilizados en la aplicación.
+- repositories: Guardado de la información en MongoDB.
+- models      : Definición de modelos y tipos utilizados en la aplicación, y también schemas de joi.
 - middlewares : Validación con Joi, manejo de logs, errores, etc.
-- utils       : Funciones auxiliares reutilizables (e.g., claves para caché).
+- utils       : Funciones auxiliares reutilizables.
 - config      : Configuración centralizada (API keys, Redis, variables de entorno).
+
+Para calcular las distancias entre punto de despacho y tiendas usé Distance Matrix API, y lo hice con un enfoque de calcular no tanto la distancia si no el tráfico, es decir prioricé mas el tiempo que tarda un repartidor
+en entregar el producto al destino que la distancia que hay del punto de despacho al mencionado destino, porque lo que importa es la velocidad a la hora de que el usuario obtenga su producto. Tal vez por eso fue dificil bajar de 300ms en la primera consulta (aunque guardando en cache la peticion es extremadamente rápido por obvias razones), porque dependemos de los tiempos de respuesta de esta API externa.
+
+En cuanto al despliegue todo quedó dockerizado por lo que con un simple `docker-compose up -d`se podra levantar todo el ambiente sin problemas. Mi idea era desplegarlo en Digital Ocean o AWS ECS (Fargate) pero no me quedó tiempo suficiente.
 
 ---
 
@@ -82,7 +87,8 @@ Si se desea hacer todo de manera local sin docker los pasos son los siguientes:
     - `docker container run -dp 27017:27017 --name mongo-container mongo:latest`
     - `docker container run -dp 6379:6379 --name redis-container redis:latest`
     - `docker container run -dp 8080:8081 --name mongo-express-container mongo-express:1.0.0-alpha.4`
+    - `docker container run -dp 3000:3000 --name instastoreapp-container sergioceballos/instastoreapp:latest`
 4. También desde la raíz del proyecto ejecutar `yarn dev`.
-5. Para ejecutar los test se have a través del comando `yarn test`.
+5. Para ejecutar los test se hace a través del comando `yarn test`.
 
 

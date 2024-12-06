@@ -49,7 +49,7 @@ Estimo que la aplicación estaría lista de 4 a 5 días.
 
 - ¿Qué mejorarías de tu código? ¿por qué?
 
-Me hubiera gustado agregar test de integración porque en mi opinión siempre es bueno tener testeados flujos enteros en los procesos mas claves. También haber podido conectar los logs a una herramienta en la nube ya que estas están enfocadas en este tipo de tareas como Datadog o New Relic. Por último me hubiera gustado poder desplegar los contenedores en un cloud como AWS usando su servicio ECS o Fargate.
+Me hubiera encantado tener mas tiempos para revisar mas estrategias para aumentar el performance de los endpoints sin tener que usar solamente un sistema de caché. Otra mejor hubiera sido agregar test de integración porque en mi opinión siempre es bueno tener testeados flujos enteros en los procesos mas claves. También haber podido conectar los logs a una herramienta en la nube ya que estas están enfocadas en este tipo de tareas como Datadog o New Relic. Por último me hubiera gustado poder desplegar los contenedores en un cloud como AWS usando su servicio ECS o Fargate.
 
 - ¿Qué compromisos harías para cumplir con el tiempo? ¿Qué harías la próxima vez para entregar más y sacrificar menos?
 
@@ -62,4 +62,16 @@ Si me parece una aplicación segura ya que implementé json web tokens para prot
 - ¿Qué harías para medir el comportamiento de tu producto en un entorno de producción?
 
 Primero implementaría herramientas de monitoreo para rastrear métricas clave como rendimiento, errores y uso de recursos. También me aseguraría de centralizar logs para analizar eventos importantes y configuraría alertas que me notifiquen de posibles problemas. Por último, usaría herramientas para analizar cómo interactúan los usuarios con el sistema y realizaría ajustes con base en esa información.
+
+---
+
+## Guía de instalación
+
+Al esta todo dockerizado no es necesario instalar nada ni hacer grandes configuraciones. Aquí están los pasos para correr el proyecto:
+
+1. Descargar el proyecto desde Github con el comando `git clone https://github.com/sergio-ceballos/instaleap-challenge.git`.
+2. En la raíz del proyecto ejecutar el comando `docker-compose up -d`.
+3. Como paso opcional y previo al paso 2 sería ejecutar el comando `docker pull sergioceballos/instastoreapp:latest` para traer la imágen del repositorio de docker (solo si hay algun problema).
+4. Para entrar a comprobar los datos para hacer las pruebas, no es necesario instalar ningún software externo como Robo3T o Atlas, ya que también esta dockerizada la imágen de mongo-express que a través del puerto 8080 permite
+acceder la base de datos de una forma visual y ver o cambiar información.
 

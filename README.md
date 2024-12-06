@@ -72,6 +72,17 @@ Al esta todo dockerizado no es necesario instalar nada ni hacer grandes configur
 1. Descargar el proyecto desde Github con el comando `git clone https://github.com/sergio-ceballos/instaleap-challenge.git`.
 2. En la raíz del proyecto ejecutar el comando `docker-compose up -d`.
 3. Como paso opcional y previo al paso 2 sería ejecutar el comando `docker pull sergioceballos/instastoreapp:latest` para traer la imágen del repositorio de docker (solo si hay algun problema).
-4. Para entrar a comprobar los datos para hacer las pruebas, no es necesario instalar ningún software externo como Robo3T o Atlas, ya que también esta dockerizada la imágen de mongo-express que a través del puerto 8080 permite
-acceder la base de datos de una forma visual y ver o cambiar información.
+4. Para entrar a comprobar los datos para hacer las pruebas, no es necesario instalar ningún software externo como Robo3T o Atlas, ya que también esta dockerizada la imágen de mongo-express que a través del puerto 8080 permite acceder la base de datos de una forma visual y ver o cambiar información.
+
+Si se desea hacer todo de manera local sin docker los pasos son los siguientes:
+
+1. Descargar el proyecto desde Github con el comando `git clone https://github.com/sergio-ceballos/instaleap-challenge.git`.
+2. En la raíz del proyecto ejecutar el comando `yarn install`.
+3. Es necesario levantar las imagenes de nuestras dependencias por lo que tendremos que ejecutar:
+    - `docker container run -dp 27017:27017 --name mongo-container mongo:latest`
+    - `docker container run -dp 6379:6379 --name redis-container redis:latest`
+    - `docker container run -dp 8080:8081 --name mongo-express-container mongo-express:1.0.0-alpha.4`
+4. También desde la raíz del proyecto ejecutar `yarn dev`.
+5. Para ejecutar los test se have a través del comando `yarn test`.
+
 
